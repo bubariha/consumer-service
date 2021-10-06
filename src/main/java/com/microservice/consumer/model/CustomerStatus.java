@@ -2,7 +2,7 @@ package com.microservice.consumer.model;
 
 public enum CustomerStatus {
 
-    R("CustomerStatus"), S("CustomerStatus"), O("CustomerStatus"), C("Closed");
+    R("Restored"), S("Suspended"), O("Open"), C("Closed");
 
     private String statusString;
     private CustomerStatus(String statusString){

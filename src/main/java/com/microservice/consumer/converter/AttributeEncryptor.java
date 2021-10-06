@@ -5,10 +5,12 @@ import org.springframework.stereotype.Component;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import javax.persistence.AttributeConverter;
 import java.security.InvalidKeyException;
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 @Component
@@ -20,7 +22,7 @@ public class AttributeEncryptor implements AttributeConverter<String, String> {
   private final Key key;
   private final Cipher cipher;
 
-  public AttributeEncryptor() throws Exception {
+  public AttributeEncryptor() throws NoSuchPaddingException, NoSuchAlgorithmException {
     key = new SecretKeySpec(SECRET.getBytes(), AES);
     cipher = Cipher.getInstance(AES);
   }

@@ -1,6 +1,5 @@
 package com.microservice.consumer;
 
-
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,32 +17,30 @@ import java.util.Map;
 @Configuration
 public class KafkaConsumerConfig {
 
-    @Value(value = "${kafka.server_endpoint}")
-    private String kafkaServerEndpoint;
+  @Value(value = "${kafka.server_endpoint}")
+  private String kafkaServerEndpoint;
 
-    @Value(value = "${kafka.group_id}")
-    private String kafkaGroupId;
+  @Value(value = "${kafka.group_id}")
+  private String kafkaGroupId;
 
-    @Bean
-    public ConsumerFactory consumerFactory() {
+  @Bean
+  public ConsumerFactory<String, Object> consumerFactory() {
 
-        Map map = new HashMap<>();
+    Map map = new HashMap<>();
 
-        map.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServerEndpoint);
-        map.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaGroupId);
-        map.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        map.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+    map.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServerEndpoint);
+    map.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaGroupId);
+    map.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+    map.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
 
-        return new DefaultKafkaConsumerFactory<>(map);
-    }
+    return new DefaultKafkaConsumerFactory<>(map);
+  }
 
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory kafkaListner() {
+  @Bean
+  public ConcurrentKafkaListenerContainerFactory kafkaListner() {
 
-        ConcurrentKafkaListenerContainerFactory obj =
-                new ConcurrentKafkaListenerContainerFactory<>();
-        obj.setConsumerFactory(consumerFactory());
-        return obj;
-    }
-
+    ConcurrentKafkaListenerContainerFactory obj = new ConcurrentKafkaListenerContainerFactory<>();
+    obj.setConsumerFactory(consumerFactory());
+    return obj;
+  }
 }
